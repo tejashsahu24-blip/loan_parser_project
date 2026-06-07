@@ -1,17 +1,20 @@
 from fastapi import FastAPI
-from parser import extract_text
+
+from parser import extract_text, parse_loan_data
 
 app = FastAPI()
-pdf_path = "agreements/loan1.pdf"
+
+PDF_PATH = "agreements/loan1.pdf"
+
 
 @app.get("/")
 def home():
     return {"message": "Loan Parser API Running"}
 
+
 @app.get("/loan")
 def get_loan():
-    text = extract_text("agreements/loan1.pdf")
+    text = extract_text(PDF_PATH)
+    data = parse_loan_data(text)
+    return data
 
-    return {
-        "pdf_text": text
-    }
